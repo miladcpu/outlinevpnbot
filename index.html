@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>مینی‌اپ</title>
+<script src="/telegram-web-app.js"></script>
+<style>
+:root{--bg:#f6f4fc;--card:#fff;--text:#1d1736;--muted:#7b7597;--line:#e6e1f4;--p:#7c3aed;--p2:#a855f7;--pt:#6d28d9;--bad:#e11d48;--sh:0 8px 22px -10px rgba(124,58,237,.45);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+:root[data-theme=dark]{--bg:#0f0b1d;--card:#1a1430;--text:#f2eeff;--muted:#9d94c2;--line:#2b2348;--p:#8b5cf6;--p2:#c026d3;--pt:#c4b5fd;--sh:0 10px 26px -12px rgba(0,0,0,.8)}
+*,*::before,*::after{box-sizing:inherit}
+html,body{margin:0;color:var(--text)}
+body{background:radial-gradient(110% 50% at 50% -8%,color-mix(in srgb,var(--p) 22%,transparent),transparent 62%),var(--bg);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,"Noto Sans Arabic",sans-serif;font-size:16px;line-height:1.7;min-height:100vh}
+main{max-width:480px;margin:0 auto;padding:14px 16px calc(96px + env(safe-area-inset-bottom,0px))}
+h2{font-size:21px;margin:4px 0 6px}h3{font-size:16px;margin:20px 0 0;color:var(--pt)}
+[hidden]{display:none!important}
+.muted{color:var(--muted);font-size:14px}
+button,input,textarea{font:inherit;color:inherit}
+.back{position:sticky;top:0;z-index:5;display:block;width:100%;max-width:480px;margin:0 auto;padding:12px 16px;border:0;background:var(--bg);color:var(--pt);text-align:right;font-weight:700}
+.btn{display:block;width:100%;border:0;border-radius:16px;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;padding:14px;font-weight:700;margin-top:14px;box-shadow:var(--sh)}
+.btn:active{transform:scale(.985)}.btn:disabled{opacity:.5}.btn.bad{background:linear-gradient(135deg,#e11d48,#f43f5e)}
+.hero{background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;border-radius:24px;padding:22px 20px;box-shadow:var(--sh)}
+.hero .muted{color:rgba(255,255,255,.8)}
+.amt{font-size:40px;font-weight:800;direction:ltr;text-align:right;font-variant-numeric:tabular-nums;letter-spacing:-.5px}
+.amt small{font-size:14px;font-weight:400;opacity:.8;margin-right:6px}
+.plan,.link,.cfg,.lg{background:var(--card);border:1px solid var(--line)}
+.plan,.link{display:flex;width:100%;align-items:center;justify-content:space-between;gap:10px;border-radius:16px;padding:14px 16px;margin-top:10px;text-align:right}
+.plan .gb{font-weight:700;font-size:18px}.plan .price,.plan b,.link b{color:var(--pt);font-weight:700}.plan b,.link b{font-size:14px}
+.link span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.link b[data-qr]{border:1px solid var(--line);border-radius:8px;padding:0 10px;cursor:pointer}
+.qr img{display:block;width:min(260px,72%);margin:10px auto 0;background:#fff;padding:8px;border-radius:14px;border:1px solid var(--line)}
+.cfg{border-radius:18px;padding:14px 16px;margin-top:12px;box-shadow:var(--sh)}.cfg header{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.meter{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin:12px 0 6px}
+.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--p),var(--p2));border-radius:6px}.meter.hot i{background:linear-gradient(90deg,#f59e0b,#e11d48)}
+.mt{display:flex;justify-content:space-between;font-size:14px}
+summary{margin-top:10px;color:var(--pt);font-weight:700;cursor:pointer}
+label{display:block;margin:16px 0 6px;font-size:14px;color:var(--muted)}
+input,textarea{width:100%;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
+input:focus,textarea:focus{outline:2px solid color-mix(in srgb,var(--p) 55%,transparent);border-color:transparent}
+pre{white-space:pre-wrap;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin:0;font-family:inherit;direction:ltr;text-align:right}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.chips button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:4px 14px;color:var(--pt)}
+.srch{display:flex;gap:8px}.srch .btn{width:auto;margin:0;padding:0 18px}
+.lg{display:flex;justify-content:space-between;padding:10px 14px;margin-top:8px;border-radius:12px;font-size:14px}.up{color:#16a34a}.dn{color:var(--bad)}
+.note{background:color-mix(in srgb,var(--p) 14%,var(--card));border:1px solid color-mix(in srgb,var(--p) 40%,transparent);border-radius:16px;padding:10px 14px;margin-bottom:14px}.note small{color:var(--pt);font-weight:700}.note p{margin:2px 0 0}
+.alert{background:color-mix(in srgb,#f59e0b 14%,var(--card));border:1px solid color-mix(in srgb,#f59e0b 45%,transparent);border-radius:16px;padding:12px 14px;margin-top:12px}.alert .btn{margin-top:10px;padding:10px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.qa{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 6px;font-weight:700;color:var(--pt);text-align:center}
+.step{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;font-size:13px;margin-left:10px}
+.chip{font-size:13px;font-weight:700;padding:2px 10px;border-radius:999px;background:color-mix(in srgb,currentColor 14%,transparent)}.chip.ok{color:#16a34a}.chip.warn{color:#d97706}.chip.bad{color:var(--bad)}
+.cardno span{font-size:19px;letter-spacing:1px;font-variant-numeric:tabular-nums;justify-content:flex-start}
+select{width:100%;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;color:inherit;margin-top:8px}
+nav{position:fixed;inset:auto 0 0 0;display:flex;background:color-mix(in srgb,var(--bg) 84%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav button{flex:1;border:0;background:none;padding:12px 4px;color:var(--muted);font-size:13px}nav button.on{color:var(--pt);font-weight:800;box-shadow:inset 0 2px 0 var(--p)}
+#toast{position:fixed;left:50%;bottom:86px;transform:translateX(-50%);background:var(--text);color:var(--bg);border-radius:999px;padding:8px 18px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s}#toast.on{opacity:.95}
+</style>
+</head>
+<body>
+<button id="backbar" class="back" data-back hidden>‹ بازگشت</button>
+<main id="view"><p class="muted">در حال بارگذاری…</p></main>
+<nav id="tabs"></nav><div id="toast"></div>
+<script>
+const tg=window.Telegram&&window.Telegram.WebApp,$=s=>document.querySelector(s),view=$("#view");
+const fmt=n=>Number(n).toLocaleString("en-US");
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let me,busy=false;
+const TABS=[["home","خانه"],["buy","خرید"],["configs","کانفیگ‌ها"],["apps","دانلود"],["support","پشتیبانی"]];
+async function api(path,opt={}){const r=await fetch(path,{...opt,headers:{...(opt.headers||{}),Authorization:"tma "+tg.initData}});const b=await r.json().catch(()=>({}));if(!r.ok){const e=new Error(b.error||"خطا "+r.status);e.status=r.status;throw e}return b}
+function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove("on"),1800)}
+async function copy(t){try{await navigator.clipboard.writeText(t)}catch(e){const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();document.execCommand("copy");a.remove()}tg.HapticFeedback&&tg.HapticFeedback.notificationOccurred("success");toast("کپی شد")}
+const linksHtml=ls=>ls.map(l=>`<div class="lk"><div class="link"><span data-copy="${esc(l)}">${esc(decodeURIComponent(l.split("#")[1]||"کانفیگ"))}</span><b data-copy="${esc(l)}">کپی</b><b data-qr="${esc(l)}">QR</b></div><div class="qr"></div></div>`).join("");
+async function toggleQr(n){const box=n.closest(".lk").querySelector(".qr");if(box.dataset.on){box.innerHTML="";delete box.dataset.on;return}
+ try{const r=await fetch("/api/qr?l="+encodeURIComponent(n.dataset.qr),{headers:{Authorization:"tma "+tg.initData}});if(!r.ok)throw 0;
+  box.innerHTML=`<img alt="QR" src="${URL.createObjectURL(await r.blob())}">`;box.dataset.on=1}catch(e){toast("QR در دسترس نیست")}}
+function setTab(t){$("#tabs").innerHTML=TABS.map(([k,n])=>`<button data-go="${k}" class="${k===t?"on":""}">${n}</button>`).join("");tg.BackButton.hide();$("#backbar").hidden=true;backTo=null}
+let backTo=null;
+function sub(to="home"){backTo=to;$("#backbar").hidden=false;tg.BackButton.show();tg.BackButton.offClick(sub.h);sub.h=()=>go(to);tg.BackButton.onClick(sub.h)}
+function adminhub(){const o=me.role==="owner";view.innerHTML=`<h2>پنل مدیریت</h2>`+[["admin",o?"مشتری‌ها و کیف پول":"مشتری‌های من"],["admcfg","اکانت‌ها و مصرف"],["adduser","افزودن مشتری"],["admimport",o?"وارد کردن اکانت‌های قدیمی":"اکانت‌های اختصاص‌یافته به من"],...(o?[["adminnote","اطلاعیه برای مشتری‌ها"],["admins","مدیریت ادمین‌ها"]]:[]),["admlog",o?"فعالیت ادمین‌ها":"فعالیت من"]].map(([k,n])=>`<button class="plan" data-go="${k}"><span class="gb">${n}</span><b>‹</b></button>`).join("")}
+const admCard=c=>`<article class="cfg"><header><b dir="ltr">${esc(c.name)}</b><span class="muted">${esc(c.user||c.user_id||"")}</span></header>
+ <div class="meter ${c.pct>=90?"hot":""}"><i style="width:${Math.min(100,c.pct||0)}%"></i></div>
+ <div class="mt"><span>${c.used_gb==null?"مصرف نامشخص":`مصرف‌شده ${c.used_gb} از ${c.gb} گیگ`}</span><b>${c.left_gb==null?"":c.left_gb+" گیگ باقی‌مانده"}</b></div>
+ <p class="muted">${c.days_left} روز تا انقضا${c.added_by?` | وارد‌شده توسط ${esc(c.added_by)}`:""}</p>
+ <details><summary>مدیریت اکانت</summary><input id="v${c.id}" inputmode="numeric" placeholder="حجم جدید (گیگ)"><button class="btn" data-vol="${c.id}">ثبت حجم جدید</button><button class="btn bad" data-delcfg="${c.id}">حذف اکانت</button></details></article>`;
+async function adminnote(){const r=await api("/api/admin/announcement");
+ view.innerHTML=`<h2>اطلاعیه برای مشتری‌ها</h2><p class="muted">متن کوتاهی که بالای صفحه‌ی خانه‌ی همه‌ی مشتری‌ها نشان داده می‌شود.</p><textarea id="ntext" rows="4" maxlength="300"></textarea><button class="btn" id="nsave">ثبت اطلاعیه</button><button class="btn bad" id="nclear">حذف اطلاعیه</button>`;
+ $("#ntext").value=r.text;$("#nsave").onclick=()=>saveNote($("#ntext").value);$("#nclear").onclick=()=>saveNote("")}
+async function saveNote(t){try{await api("/api/admin/announcement",{method:"POST",body:JSON.stringify({text:t})});toast(t?"اطلاعیه ثبت شد":"اطلاعیه حذف شد");if(!t)$("#ntext").value=""}catch(e){tg.showAlert(e.message)}}
+async function admimport(){view.innerHTML=`<p class="muted">در حال بارگذاری…</p>`;const o=me.role==="owner",r=await api("/api/admin/unmanaged");
+ const adm=o?(await api("/api/admin/admins")).admins.filter(a=>!a.owner):[];
+ view.innerHTML=`<h2>${o?"وارد کردن اکانت‌های قدیمی":"اکانت‌های اختصاص‌یافته به من"}</h2><p class="muted">کلیدهایی که از طریق ربات ساخته نشده‌اند. مشتری باید قبلا ربات را استارت کرده باشد${o?"":" و توسط تو اضافه شده باشد"}.</p>`+`<input id="kq" placeholder="جستجوی اسم یا شناسه‌ی کلید">`+(r.keys.length?r.keys.map(k=>`<article class="cfg" data-s="${esc(((k.name||"")+" "+k.id).toLowerCase())}"><header><b dir="ltr">${esc(k.name||"بدون نام")}</b><span class="muted" dir="ltr">#${esc(k.id)}</span></header>
+  <p class="muted">مصرف: ${k.used_gb} گیگ${k.limit_gb?` | سقف فعلی: ${k.limit_gb} گیگ`:" | بدون سقف"}${o?` | متعلق به: ${esc(k.assigned||"ادمین اصلی")}`:""}</p>
+  ${o?`<details><summary>اختصاص به ادمین</summary><select id="as${k.id}"><option value="">فقط ادمین اصلی</option>${adm.map(a=>`<option value="${a.id}" ${a.id===k.assigned_id?"selected":""}>${esc(a.name||a.id)}</option>`).join("")}</select><button class="btn" data-as="${esc(k.id)}">ثبت</button></details>`:""}
+  <details><summary>اتصال به مشتری</summary><label>یوزرنیم تلگرام مشتری</label><input id="iu${k.id}" dir="ltr" placeholder="@username"><label>اسم اکانت (اختیاری)</label><input id="il${k.id}" maxlength="30"><label>حجم باقی‌مانده (گیگ)</label><input id="ig${k.id}" inputmode="numeric"><label>روز باقی‌مانده</label><input id="id${k.id}" inputmode="numeric" value="30"><button class="btn" data-imp="${esc(k.id)}">اتصال به ربات</button></details></article>`).join(""):`<p class="muted">کلیدی پیدا نشد.</p>`)}
+function doImport(id){const u=$("#iu"+id).value.trim(),g=$("#ig"+id).value.trim(),d=$("#id"+id).value.trim(),l=$("#il"+id).value.trim();if(!u||!g||!d){tg.showAlert("یوزرنیم، حجم و روز را پر کن");return}
+ tg.showConfirm(`اکانت ${id} با ${g} گیگ و ${d} روز باقی‌مانده به ${u} وصل شود؟ اسم کلید در اوتلاین عوض می‌شود و سقف حجم اعمال می‌شود.`,async ok=>{if(!ok)return;
+  try{await api("/api/admin/import",{method:"POST",body:JSON.stringify({key_id:id,username:u,remaining_gb:g,days:d,label:l})});toast("متصل شد");admimport()}catch(e){tg.showAlert(e.message)}})}
+async function assignKey(id){try{await api("/api/admin/assign-key",{method:"POST",body:JSON.stringify({key_id:id,admin_id:$("#as"+id).value||null})});toast("ثبت شد");admimport()}catch(e){tg.showAlert(e.message)}}
+function adduser(){view.innerHTML=`<h2>افزودن مشتری</h2><p class="muted">مشتری باید قبلا ربات را استارت کرده باشد. با افزودن، عضویتش تایید می‌شود و زیر نظر تو قرار می‌گیرد.</p><label>یوزرنیم تلگرام مشتری</label><input id="auser" dir="ltr" placeholder="@username"><button class="btn" id="aubtn">افزودن مشتری</button>`}
+async function addUser(){const v=$("#auser").value.trim();if(!v){tg.showAlert("یوزرنیم را وارد کن");return}
+ try{await api("/api/admin/adduser",{method:"POST",body:JSON.stringify({username:v})});toast("مشتری اضافه شد");$("#auser").value=""}catch(e){tg.showAlert(e.message)}}
+function delCfg(id){tg.showConfirm("این اکانت از اوتلاین حذف شود؟ این کار برگشت‌پذیر نیست.",async ok=>{if(!ok)return;
+ try{await api("/api/admin/delete-config",{method:"POST",body:JSON.stringify({config_id:id})});toast("حذف شد");$("#clist")?admcfg():openUser(curUser)}catch(e){tg.showAlert(e.message)}})}
+async function admlog(){const r=await api("/api/admin/activity");
+ view.innerHTML=`<h2>${me.role==="owner"?"فعالیت ادمین‌ها":"فعالیت من"}</h2><p class="muted">اکانت‌های واردشده و عملیات هر ادمین.</p>`+r.admins.map(a=>`<button class="plan" data-af="${a.id}"><span><b>${esc(a.name)}</b><br><small class="muted">${a.imports} اکانت وارد کرده | ${a.actions} عملیات</small></span><b>‹</b></button>`).join("")}
+async function admfeed(id){sub("admlog");view.innerHTML=`<p class="muted">در حال بارگذاری…</p>`;
+ try{const r=await api("/api/admin/activity?admin="+id);view.innerHTML=`<h2>${esc(r.admin)}</h2>`+(r.items.length?r.items.map(x=>`<div class="lg"><span><b>${esc(x.action)}</b>${x.user?` | ${esc(x.user)}`:""}<br><small class="muted">${esc(x.detail)}</small></span><small class="muted" dir="ltr">${esc(x.when)}</small></div>`).join(""):`<p class="muted">هنوز عملیاتی ثبت نشده.</p>`)}catch(e){view.textContent="خطا: "+e.message}}
+let cq="",coff=0;
+async function admcfg(){coff=0;view.innerHTML=`<h2>اکانت‌ها و مصرف</h2><div class="srch"><input id="cq" placeholder="نام، یوزرنیم یا آیدی مشتری" value="${esc(cq)}"><button class="btn" id="csr">جستجو</button></div><div id="clist"></div><button class="btn" id="cmore" hidden>نمایش بیشتر</button>`;
+ $("#csr").onclick=()=>{cq=$("#cq").value.trim();coff=0;$("#clist").innerHTML="";loadCfgs()};$("#cq").onkeydown=e=>{if(e.key==="Enter")$("#csr").click()};$("#cmore").onclick=loadCfgs;await loadCfgs()}
+async function loadCfgs(){const r=await api(`/api/admin/configs?q=${encodeURIComponent(cq)}&offset=${coff}`);
+ $("#clist").insertAdjacentHTML("beforeend",r.configs.map(admCard).join("")||(coff?"":`<p class="muted">اکانتی پیدا نشد.</p>`));coff+=r.configs.length;$("#cmore").hidden=!r.more}
+function volume(id){const g=$("#v"+id).value.trim();if(!g){tg.showAlert("حجم جدید را وارد کن");return}
+ tg.showConfirm(`حجم این اکانت به ${g} گیگ تغییر کند؟`,async ok=>{if(!ok)return;
+  try{await api("/api/admin/volume",{method:"POST",body:JSON.stringify({config_id:id,gb:g})});toast("حجم تغییر کرد");$("#clist")?admcfg():openUser(curUser)}
+  catch(e){tg.showAlert(e.message)}})}
+async function admins(){const r=await api("/api/admin/admins");
+ view.innerHTML=`<h2>مدیریت ادمین‌ها</h2>`+r.admins.map(a=>`<div class="plan"><span><b>${esc(a.name||"بدون نام")}</b><br><small class="muted" dir="ltr">${a.id}</small></span>${a.owner?`<b>ادمین اصلی</b>`:(r.can_manage?`<b data-rmadm="${a.id}" style="color:var(--bad)">عزل</b>`:"")}</div>`).join("")
+ +(r.can_manage?`<label>آیدی عددی ادمین جدید</label><input id="nadm" inputmode="numeric" placeholder="مثلا 123456789"><button class="btn" id="addadm">افزودن ادمین</button><p class="muted">ادمین جدید باید قبلا ربات را استارت کرده باشد.</p>`:`<p class="muted">فقط ادمین اصلی می‌تواند ادمین اضافه یا حذف کند.</p>`)}
+function addAdmin(){const v=$("#nadm").value.trim();if(!v){tg.showAlert("آیدی عددی را وارد کن");return}
+ tg.showConfirm(`کاربر ${v} به‌عنوان ادمین اضافه شود؟`,async ok=>{if(!ok)return;try{await api("/api/admin/admins/add",{method:"POST",body:JSON.stringify({id:v})});toast("ادمین اضافه شد");admins()}catch(e){tg.showAlert(e.message)}})}
+function rmAdmin(id){tg.showConfirm(`ادمین ${id} عزل شود؟ همه‌ی مشتری‌ها و اکانت‌هایش به ادمین اصلی منتقل می‌شوند.`,async ok=>{if(!ok)return;try{await api("/api/admin/admins/remove",{method:"POST",body:JSON.stringify({id})});toast("عزل شد");admins()}catch(e){tg.showAlert(e.message)}})}
+const STATUS_FA={approved:"تایید شده",pending:"در انتظار تایید",rejected:"رد شده",new:"بدون درخواست"};
+let aq="",aoff=0,curUser=0;
+async function admin(){aoff=0;view.innerHTML=`<h2>مشتری‌ها</h2><div class="srch"><input id="aq" placeholder="نام، یوزرنیم یا آیدی" value="${esc(aq)}"><button class="btn" id="asr">جستجو</button></div><div id="alist"></div><button class="btn" id="amore" hidden>نمایش بیشتر</button>`;
+ $("#asr").onclick=()=>{aq=$("#aq").value.trim();aoff=0;$("#alist").innerHTML="";loadUsers()};$("#aq").onkeydown=e=>{if(e.key==="Enter")$("#asr").click()};$("#amore").onclick=loadUsers;await loadUsers()}
+async function loadUsers(){const r=await api(`/api/admin/users?q=${encodeURIComponent(aq)}&offset=${aoff}`);
+ $("#alist").insertAdjacentHTML("beforeend",r.users.map(u=>`<button class="plan" data-user="${u.id}"><span><b>${esc(u.name||"بدون نام")}</b><br><small class="muted" dir="ltr">${u.id}</small></span><span class="price">${fmt(u.balance)}</span></button>`).join("")||(aoff?"":`<p class="muted">موردی پیدا نشد.</p>`));
+ aoff+=r.users.length;$("#amore").hidden=!r.more}
+const logHtml=l=>l.length?l.map(x=>`<div class="lg"><span>${esc(x.note||"بدون توضیح")}<br><small class="muted">${new Date(x.created*1000).toLocaleString("fa-IR",{dateStyle:"short",timeStyle:"short",timeZone:"Asia/Tehran"})}</small></span><b dir="ltr" class="${x.delta>0?"up":"dn"}">${x.delta>0?"+":"-"}${fmt(Math.abs(x.delta))}</b></div>`).join(""):`<p class="muted">هنوز تغییری ثبت نشده.</p>`;
+async function openUser(id){curUser=id;sub("admin");view.innerHTML=`<p class="muted">در حال بارگذاری…</p>`;
+ try{const u=await api("/api/admin/user?id="+id);
+  view.innerHTML=`<h2>${esc(u.name||"بدون نام")}</h2><p class="muted"><span dir="ltr">${u.id}</span>، ${STATUS_FA[u.status]||u.status}، ${u.configs} کانفیگ فعال</p>
+  <section class="hero"><div class="muted">موجودی کیف پول</div><div class="amt" id="ubal">${fmt(u.balance)}<small>تومان</small></div></section>
+  ${u.can_wallet?`<div id="wbox"><label>مبلغ (تومان)</label><input id="wamt" inputmode="numeric"><label>توضیح (اختیاری)</label><input id="wnote" maxlength="100">
+  <button class="btn" data-w="add">افزایش موجودی</button><button class="btn bad" data-w="sub">کاهش موجودی</button></div>`:""}<h3>اکانت‌ها</h3>${u.cfgs.length?u.cfgs.map(admCard).join(""):`<p class="muted">اکانت فعالی ندارد.</p>`}<h3>آخرین تغییرات</h3><div id="wlog">${logHtml(u.log)}</div>`}
+ catch(e){view.textContent="خطا: "+e.message}}
+function wallet(mode){const a=$("#wamt").value.trim();if(!a){tg.showAlert("مبلغ را وارد کن");return}
+ tg.showConfirm(`${mode==="add"?"افزایش":"کاهش"} موجودی به مبلغ ${a} تومان؟`,async ok=>{if(!ok)return;
+  try{const r=await api("/api/admin/wallet",{method:"POST",body:JSON.stringify({user_id:curUser,amount:a,mode,note:$("#wnote").value})});
+   $("#ubal").firstChild.textContent=fmt(r.balance);$("#wlog").innerHTML=logHtml(r.log);$("#wamt").value="";toast("انجام شد")}
+  catch(e){tg.showAlert(e.message)}})}
+function gate(){const s=me.status;
+ if(s==="new"){view.innerHTML=`<h2>درخواست عضویت</h2><p class="muted">برای خرید و شارژ، اول باید عضویتت تایید شود. یک پیام کوتاه برای ادمین بنویس (مثلا اینکه چه کسی معرفی کرده).</p><textarea id="note" rows="3" maxlength="500"></textarea><button class="btn" id="reg">ارسال درخواست</button>`;
+  $("#reg").onclick=async()=>{try{await api("/api/register",{method:"POST",body:JSON.stringify({note:$("#note").value})});me.status="pending";gate()}catch(e){tg.showAlert(e.message)}}}
+ else view.innerHTML=s==="pending"?`<h2>در انتظار تایید</h2><p class="muted">درخواستت برای ادمین ارسال شده. بعد از بررسی در ربات خبرت می‌کنیم.</p>`:`<h2>صلاحیت تایید نشد</h2><p class="muted">برای پیگیری از تب پشتیبانی استفاده کن.</p>`}
+async function go(t){setTab(t);const f={home,buy,configs,apps,support,topup,admin,adminhub,admcfg,admins,adminnote,admimport,adduser,admlog}[t];const S={topup:"home",admin:"adminhub",admcfg:"adminhub",admins:"adminhub",adminnote:"adminhub",admimport:"adminhub",adduser:"adminhub",admlog:"adminhub",adminhub:"home"};if(S[t])sub(S[t]);
+ if((t==="buy"||t==="topup")&&me.status!=="approved"){gate();return}
+ try{await f()}catch(e){view.innerHTML=`<p class="muted"></p>`;view.firstChild.textContent="خطا: "+e.message}}
+async function home(){view.innerHTML=`<p class="muted">در حال بارگذاری…</p>`;let h={configs:[],alerts:[],topups:[],total:0,announcement:""};
+ try{h=await api("/api/home")}catch(e){}
+ const al=h.alerts.slice(0,2).map(a=>`<div class="alert"><b>${a.kind==="usage"?`حجم کانفیگ ${esc(a.name)} رو به پایان است (${a.pct}٪ مصرف)`:`کانفیگ ${esc(a.name)} ${a.days>0?`تا ${a.days} روز دیگر`:"امروز"} منقضی می‌شود`}</b><button class="btn" data-go="configs">تمدید یا افزایش حجم</button></div>`).join("");
+ const cfgs=h.total?`<h3>کانفیگ‌های من</h3>`+h.configs.map(c=>`<article class="cfg"><header><b dir="ltr">${esc(c.name)}</b><span class="muted">${c.days_left} روز مانده</span></header>${c.pct==null?"":`<div class="meter ${c.pct>=90?"hot":""}"><i style="width:${Math.min(100,c.pct)}%"></i></div><div class="mt"><span>مصرف‌شده ${c.used_gb} از ${c.gb} گیگ</span><b>${c.left_gb} گیگ مانده</b></div>`}</article>`).join("")+`<button class="plan" data-go="configs"><span class="gb">همه‌ی کانفیگ‌ها${h.total>3?" ("+h.total+")":""}</span><b>‹</b></button>`
+  :`<h3>شروع سریع</h3>`+[["topup","شارژ کیف پول"],["buy","خرید کانفیگ"],["apps","دانلود اپ Outline"]].map(([k,n],i)=>`<button class="plan" data-go="${k}"><span><span class="step">${i+1}</span>${n}</span><b>‹</b></button>`).join("")+`<p class="muted">بعد از خرید، لینک را کپی کن و داخل اپ Outline اضافه کن.</p>`;
+ const ST={pending:["در انتظار تایید","warn"],approved:["تایید شد","ok"],rejected:["رد شد","bad"]};
+ const tp=h.topups.length?`<h3>آخرین شارژها</h3>`+h.topups.map(t=>{const[s,k]=ST[t.status]||[t.status,"warn"];return `<div class="lg"><span><b dir="ltr">${fmt(t.amount)}</b> تومان<br><small class="muted">${esc(t.when)}</small></span><span class="chip ${k}">${s}</span></div>`}).join(""):"";
+ view.innerHTML=(h.announcement?`<div class="note"><small>اطلاعیه</small><p>${esc(h.announcement)}</p></div>`:"")
+  +`<section class="hero"><div class="muted">موجودی کیف پول</div><div class="amt">${fmt(me.balance)}<small>تومان</small></div></section><button class="btn" data-go="topup">شارژ کیف پول</button>`
+  +al+cfgs+`<div class="grid3"><button class="qa" data-go="buy">خرید</button><button class="qa" data-go="apps">دانلود اپ</button><button class="qa" data-go="support">پشتیبانی</button></div>`+tp
+  +(me.is_admin?`<button class="btn" data-go="adminhub">پنل مدیریت</button>`:"")}
+function buy(){view.innerHTML=`<h2>خرید کانفیگ</h2><p class="muted">همه‌ی پلن‌ها ${me.plan_days} روزه‌اند. موجودی: ${fmt(me.balance)} تومان</p>`+me.plans.map(p=>`<button class="plan" data-buy="${p.gb}"><span class="gb">${p.gb} گیگ</span><span class="price">${fmt(p.price)} تومان</span></button>`).join("")}
+function doBuy(gb){const p=me.plans.find(x=>x.gb===gb);if(busy||!p)return;
+ tg.showConfirm(`خرید ${gb} گیگ به قیمت ${fmt(p.price)} تومان؟`,async ok=>{if(!ok)return;
+  try{me.balance=(await api("/api/me")).balance}catch(e){}
+  if(me.balance<p.price){toast("موجودی کافی نیست. اول کیف پول را شارژ کن.");go("topup");return}
+  nameStep(gb,p)})}
+function nameStep(gb,p){setTab("buy");sub("buy");
+ view.innerHTML=`<h2>اسم اکانت</h2><p class="muted">پلن ${gb} گیگ به قیمت ${fmt(p.price)} تومان تایید شد. یک اسم برای اکانتت بنویس (مثلا اسم خودت یا دستگاه).</p><label>اسم اکانت</label><input id="lbl" maxlength="30" placeholder="مثلا اسم خودت یا دستگاه"><button class="btn" id="mk">ساخت اکانت</button>`;
+ $("#lbl").focus();$("#lbl").onkeydown=e=>{if(e.key==="Enter")$("#mk").click()};
+ $("#mk").onclick=async()=>{const lbl=$("#lbl").value.trim();if(!lbl){tg.showAlert("اسم اکانت را وارد کن");return}if(busy)return;busy=true;$("#mk").disabled=true;
+  try{const r=await api("/api/buy",{method:"POST",body:JSON.stringify({gb,label:lbl})});me.balance=r.balance;sub();
+   view.innerHTML=`<h2>کانفیگ آماده است ✅</h2><p class="muted">روی هر لینک بزن تا کپی شود، بعد در Outline اضافه‌اش کن.</p>`+linksHtml(r.config.links)}
+  catch(e){if(e.status===402){toast(e.message);go("topup")}else{tg.showAlert(e.message);$("#mk").disabled=false}}busy=false}}
+function cardHtml(raw){raw=(raw||"").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d));const re=/\d(?:[\d\s-]*\d)?/g,found=(raw.match(re)||[]).sort((a,b)=>b.length-a.length)[0]||"",num=found.replace(/\D/g,"");
+ if(num.length<12)return `<pre>${esc(raw)}</pre>`;
+ const name=raw.replace(re,"").replace(/[،,\-–|]+/g," ").replace(/\s+/g," ").trim();
+ return (name?`<p class="muted">به نام <b>${esc(name)}</b></p>`:"")+`<button class="link cardno" data-copy="${num}"><span dir="ltr">${num.replace(/(.{4})/g,"$1 ").trim()}</span><b>کپی</b></button>`}
+async function topup(){const info=await api("/api/topup-info"),card=(info.card||"").match(/[\d-]{12,}/);
+ view.innerHTML=`<h2>شارژ کیف پول</h2><label>مبلغ (تومان)</label><input id="amt" inputmode="numeric" placeholder="مثلا 100000"><div class="chips">${[...new Set(me.plans.map(p=>p.price))].map(a=>`<button data-amt="${a}">${fmt(a)}</button>`).join("")}</div>
+ <label>واریز به کارت</label>${cardHtml(info.card)}
+ <label>عکس فیش</label><input id="photo" type="file" accept="image/jpeg,image/png"><button class="btn" id="send">ارسال فیش</button>`;
+ $("#send").onclick=async()=>{const a=$("#amt").value,f=$("#photo").files[0];if(!a||!f){tg.showAlert("مبلغ و عکس فیش را کامل کن");return}
+  const fd=new FormData();fd.append("amount",a);fd.append("photo",f);$("#send").disabled=true;
+  try{await api("/api/topup",{method:"POST",body:fd});view.innerHTML=`<h2>فیش ارسال شد ✅</h2><p class="muted">بعد از تایید ادمین، کیف پولت شارژ می‌شود و در ربات خبرت می‌کنیم.</p>`}
+  catch(e){tg.showAlert(e.message);$("#send").disabled=false}}}
+async function configs(){view.innerHTML=`<p class="muted">در حال بارگذاری…</p>`;const{configs:cs}=await api("/api/configs");
+ const renew=c=>`<details><summary>تمدید ${me.plan_days} روزه</summary><p class="muted">حجم باقی‌مانده‌ات حفظ می‌شود و حجم پلن به آن اضافه می‌شود. لینک همان می‌ماند.</p>${me.plans.map(p=>`<button class="plan" data-renew="${c.id}:${p.gb}"><span class="gb">${p.gb} گیگ</span><span class="price">${fmt(p.price)} تومان</span></button>`).join("")}</details>`;
+ const addon=c=>`<details><summary>افزایش حجم</summary>${(me.addons||[]).map(a=>`<button class="plan" data-addon="${c.id}:${a.gb}"><span class="gb">+${a.gb} گیگ</span><span class="price">${fmt(a.price)} تومان</span></button>`).join("")}</details>`;
+ view.innerHTML=`<h2>کانفیگ‌های من</h2>`+(cs.length?cs.map(c=>{
+  if(c.expired)return `<article class="cfg off"><header><b dir="ltr">${esc(c.name)}</b><span class="chip bad">منقضی‌شده</span></header><p class="muted">تا ${c.grace_days} روز دیگر می‌توانی با همان لینک تمدیدش کنی.</p>${renew(c)}</article>`;
+  const u=c.used_gb,pct=c.pct==null?0:Math.min(100,c.pct);
+  return `<article class="cfg"><header><b dir="ltr">${esc(c.name)}</b><span class="muted">${c.gb} گیگ | ${c.days_left} روز مانده</span></header>
+  ${u!=null?`<div class="meter ${pct>=90?"hot":""}"><i style="width:${pct}%"></i></div><div class="mt"><span>مصرف‌شده ${u} از ${c.gb} گیگ</span><b>${c.left_gb} گیگ باقی‌مانده</b></div>`:`<p class="muted">مصرف الان در دسترس نیست.</p>`}
+  <details><summary>لینک‌ها (${c.links.length})</summary>${linksHtml(c.links)}</details>${renew(c)}${addon(c)}</article>`}).join(""):`<p class="muted">هنوز کانفیگی نداری. از تب خرید یکی بگیر.</p>`)}
+function order(kind,v){const[id,gb]=v.split(":").map(Number);const p=kind==="renew"?me.plans.find(x=>x.gb===gb):(me.addons||[]).find(x=>x.gb===gb);if(busy||!p)return;
+ tg.showConfirm(kind==="renew"?`تمدید ${me.plan_days} روزه با ${gb} گیگ به قیمت ${fmt(p.price)} تومان؟`:`افزایش ${gb} گیگ به قیمت ${fmt(p.price)} تومان؟`,async ok=>{if(!ok)return;busy=true;
+  try{const r=await api(kind==="renew"?"/api/renew":"/api/addvolume",{method:"POST",body:JSON.stringify({config_id:id,gb})});me.balance=r.balance;toast("انجام شد");configs()}
+  catch(e){if(e.status===402){toast(e.message);go("topup")}else tg.showAlert(e.message)}busy=false})}
+function apps(){view.innerHTML=`<h2>دانلود اپلیکیشن</h2><p class="muted">برای استفاده از لینک‌ها، اپ Outline را نصب کن.</p>`+me.apps.map(p=>`<h3>${esc(p.name)}</h3>`+p.links.map(l=>`<button class="plan" data-open="${esc(l.url)}"><span>${esc(l.label)}</span><b>دانلود</b></button>`).join("")).join("")}
+function support(){view.innerHTML=`<h2>پشتیبانی</h2><p class="muted">برای هر مشکلی مستقیم به ادمین پیام بده.</p>`+(me.support?`<button class="btn" data-support="1">ارتباط با پشتیبانی</button>`:`<p class="muted">پشتیبانی هنوز تنظیم نشده.</p>`)}
+document.addEventListener("input",e=>{if(e.target.id!=="kq")return;const q=e.target.value.trim().toLowerCase();document.querySelectorAll("article.cfg[data-s]").forEach(c=>c.hidden=!!q&&!c.dataset.s.includes(q))});
+document.addEventListener("click",e=>{const t=e.target;let n;
+ if(n=t.closest("[data-qr]"))toggleQr(n);
+ else if(n=t.closest("[data-open]"))tg.openLink(n.dataset.open);
+ else if(n=t.closest("[data-user]"))openUser(+n.dataset.user);
+ else if(n=t.closest("[data-w]"))wallet(n.dataset.w);
+ else if(n=t.closest("[data-imp]"))doImport(n.dataset.imp);
+ else if(n=t.closest("[data-renew]"))order("renew",n.dataset.renew);
+ else if(n=t.closest("[data-addon]"))order("addon",n.dataset.addon);
+ else if(n=t.closest("[data-as]"))assignKey(n.dataset.as);
+ else if(n=t.closest("[data-delcfg]"))delCfg(+n.dataset.delcfg);
+ else if(n=t.closest("[data-af]"))admfeed(+n.dataset.af);
+ else if(t.closest("#aubtn"))addUser();
+ else if(n=t.closest("[data-vol]"))volume(+n.dataset.vol);
+ else if(n=t.closest("[data-rmadm]"))rmAdmin(+n.dataset.rmadm);
+ else if(t.closest("#addadm"))addAdmin();
+ else if(t.closest("[data-back]"))go(backTo);
+ else if(n=t.closest("[data-copy]"))copy(n.dataset.copy);
+ else if(n=t.closest("[data-go]"))go(n.dataset.go);
+ else if(n=t.closest("[data-buy]"))doBuy(+n.dataset.buy);
+ else if(n=t.closest("[data-amt]"))$("#amt").value=n.dataset.amt;
+ else if(t.closest("[data-support]"))tg.openTelegramLink("https://t.me/"+me.support)});
+(async()=>{if(!tg||!tg.initData){view.innerHTML=`<p class="muted">این صفحه فقط با دکمه‌ی Mini App ربات باز می‌شود. از دکمه‌ی «Mini App» کنار نوار پیام ربات، یا دکمه‌ی «🛍 Mini App» زیر پیام‌های ربات استفاده کن.</p>`;return}
+ tg.ready();tg.expand();document.documentElement.dataset.theme=tg.colorScheme||"light";try{const c=getComputedStyle(document.documentElement).getPropertyValue("--bg").trim();tg.setHeaderColor(c);tg.setBackgroundColor(c)}catch(e){}try{me=await api("/api/me");go("home")}catch(e){view.textContent="ارتباط با سرور برقرار نشد: "+e.message}})();
+</script>
+</body>
+</html>
