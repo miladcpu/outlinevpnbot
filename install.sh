@@ -129,9 +129,13 @@ setup_https() {
   touch "$cf"
   grep -q 'root \* /usr/share/caddy' "$cf" && : > "$cf"      # Caddyfile پیش‌فرض بسته
   sed -i '/# >>> yal-vpn-bot/,/# <<< yal-vpn-bot/d' "$cf"
-  printf '\n# >>> yal-vpn-bot\n%s {\n    encode gzip\n    reverse_proxy 127.0.0.1:%s\n}\n# <<< yal-vpn-bot\n' "$WDOMAIN" "$WEB_PORT" >> "$cf"
+  if grep -qE "^[[:space:]]*${WDOMAIN//./\\.}([[:space:],{]|$)" "$cf"; then
+    warn "در Caddyfile از قبل برای $WDOMAIN تنظیمی هست؛ دستش نمی‌زنم. مطمئن شو به 127.0.0.1:$WEB_PORT پروکسی می‌شود."
+  else
+    printf '\n# >>> yal-vpn-bot\n%s {\n    encode gzip\n    reverse_proxy 127.0.0.1:%s\n}\n# <<< yal-vpn-bot\n' "$WDOMAIN" "$WEB_PORT" >> "$cf"
+  fi
   systemctl enable --now caddy >/dev/null 2>&1 || true
-  systemctl reload caddy || systemctl restart caddy
+  systemctl reload caddy || systemctl restart caddy || warn "Caddy بالا نیامد: journalctl -u caddy -n 20 --no-pager"
 }
 
 deploy_files() {

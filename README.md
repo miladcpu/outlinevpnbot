@@ -16,8 +16,8 @@
 
 ## نصب
 ```bash
-git clone https://github.com/USERNAME/yal-vpn-bot.git
-cd yal-vpn-bot
+git clone https://github.com/USERNAME/outlinevpnbot.git
+cd outlinevpnbot
 sudo bash install.sh
 ```
 اسکریپت این‌ها را می‌پرسد: توکن ربات، آیدی عددی ادمین اصلی، آدرس مدیریت Outline (اگر روی همین سرور باشد خودش پیدا می‌کند)،
@@ -28,7 +28,7 @@ sudo bash install.sh
 
 ## به‌روزرسانی
 ```bash
-cd yal-vpn-bot && git pull && sudo bash install.sh update
+cd outlinevpnbot && git pull && sudo bash install.sh update
 ```
 
 ## دستورهای مفید
